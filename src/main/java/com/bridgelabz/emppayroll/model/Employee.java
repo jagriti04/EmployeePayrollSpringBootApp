@@ -23,6 +23,13 @@ public class Employee {
 	private String name;
 	private int salary;
 	
+	public int getEmpId() {
+		return empId;
+	}
+	public void setEmpId(int empId) {
+		this.empId = empId;
+	}
+	
 
 //	public Employee(EmployeePayrollDTO empDto) {
 //		this.name = empDto.name;
