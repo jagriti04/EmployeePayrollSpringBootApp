@@ -12,6 +12,9 @@ public class GlobalExceptionHandler extends Exception{
 
 	@ExceptionHandler
 	public ResponseEntity<ErrorMessage> handle(Exception ex) {
+		if (ex instanceof EmployeePayrollException) {
+			return new ResponseEntity<ErrorMessage>(new ErrorMessage(ex.getMessage(), 400), HttpStatus.BAD_REQUEST);
+		}
 		return new ResponseEntity<ErrorMessage>(new ErrorMessage("failed to add the data", 500), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 }

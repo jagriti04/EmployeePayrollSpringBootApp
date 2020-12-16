@@ -1,5 +1,7 @@
 package com.bridgelabz.emppayroll.controllers;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +13,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bridgelabz.emppayroll.dto.EmployeePayrollDTO;
 import com.bridgelabz.emppayroll.dto.ResponseDTO;
+import com.bridgelabz.emppayroll.exception.EmployeePayrollException;
 import com.bridgelabz.emppayroll.exception.GlobalExceptionHandler;
 import com.bridgelabz.emppayroll.model.Employee;
 import com.bridgelabz.emppayroll.service.IEmployeePayrollService;
@@ -35,9 +39,26 @@ public class EmployeePayrollController {
 		return "hello";
 	}
 	
-	@GetMapping("/get")
-	public ResponseEntity<String> getEmployeeDetails() {
-		return new ResponseEntity<String>("Employee Data", HttpStatus.OK);
+	/**
+	 * This api is used to get the list of employees from database.
+	 * @param 
+	 * @return ResponseEntity
+	 * @throws EmployeePayrollException 
+	 */
+	@GetMapping(value = {"/getlist"})
+	public ResponseEntity<List<Employee>> getEmployeeList() throws EmployeePayrollException {
+		return new ResponseEntity<List<Employee>>(empPayrollService.getEmployeeList() , HttpStatus.OK) ;
+	}
+	
+	/**
+	 * This api is used to find an employee from database.
+	 * @param id
+	 * @return ResponseEntity
+	 * @throws EmployeePayrollException 
+	 */
+	@GetMapping(value = "/get/{id}")
+	public ResponseEntity<EmployeePayrollDTO> getEmployeeById(@PathVariable int id) throws EmployeePayrollException {
+		return new ResponseEntity<EmployeePayrollDTO>(empPayrollService.getEmployee(id), HttpStatus.OK);
 	}
 	
 	/**
@@ -56,17 +77,22 @@ public class EmployeePayrollController {
 	 * @param empId
 	 * @param empPayrollData
 	 * @return
+	 * @throws EmployeePayrollException 
 	 */
-	@PutMapping("/update/{empId}")
-	public ResponseEntity<String> updateEmployeePayrollData(@PathVariable("empId") int empId, @RequestBody Employee empPayrollData){
-		Employee empData = null;
-		empData = empPayrollService.updateEmployeePayrollData(empId, empPayrollData); 
-		return new ResponseEntity<String>("Updated emp payroll data", HttpStatus.OK);
+	@PutMapping("/update/{id}")
+	public ResponseEntity<ResponseDTO> updateEmployeePayrollData(@PathVariable("id") int empId, @RequestBody EmployeePayrollDTO empPayrollData) throws EmployeePayrollException{
+		Employee empData = empPayrollService.updateEmployeePayrollData(empId, empPayrollData); 
+		return new ResponseEntity<ResponseDTO>(new ResponseDTO("Updated emp payroll data"), HttpStatus.OK);
 	}
 
-	@DeleteMapping("/delete/{empId}")
-	public ResponseEntity<String> deleteEmployeePayrollData(@PathVariable("empId") int empId) throws GlobalExceptionHandler{
+	/**
+	 * @param empId
+	 * @return
+	 * @throws GlobalExceptionHandler
+	 */
+	@DeleteMapping("/delete/{id}")
+	public ResponseEntity<ResponseDTO> deleteEmployeePayrollData(@PathVariable("id") int empId) throws EmployeePayrollException{
 		empPayrollService.deleteEmployeePayrollData(empId);
-		return new ResponseEntity<String>("Deleted data successfully",HttpStatus.OK);
+		return new ResponseEntity<ResponseDTO>(new ResponseDTO("Deleted data successfully"),HttpStatus.OK);
 	}
 }

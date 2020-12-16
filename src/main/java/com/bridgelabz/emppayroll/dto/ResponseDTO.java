@@ -9,7 +9,6 @@ public class ResponseDTO {
 	public Object object;
 	
 	public ResponseDTO(String msg) {
-		// TODO Auto-generated constructor stub
 		this.message = msg;
 	}
 
