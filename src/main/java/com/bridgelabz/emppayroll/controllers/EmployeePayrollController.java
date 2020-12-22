@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,6 +27,7 @@ import com.bridgelabz.emppayroll.service.IEmployeePayrollService;
 
 import io.swagger.annotations.ApiOperation;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/employeepayrollservice")
 public class EmployeePayrollController {
@@ -67,7 +69,8 @@ public class EmployeePayrollController {
 	 * @return
 	 */
 	@PostMapping(value = "/create")
-	public ResponseEntity<ResponseDTO> addEmployeeEntity(@RequestBody @Valid EmployeePayrollDTO empDto) {
+	public ResponseEntity<ResponseDTO> addEmployeeEntity(@Valid @RequestBody EmployeePayrollDTO empDto) {
+		System.out.println("in controller-----" + empDto);
 		Employee emp = empPayrollService.addEmployeePayroll(empDto);
 		return new ResponseEntity<ResponseDTO>(new ResponseDTO("Added emp payroll data"), HttpStatus.CREATED);
 	}

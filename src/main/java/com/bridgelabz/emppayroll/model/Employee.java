@@ -1,14 +1,20 @@
 package com.bridgelabz.emppayroll.model;
 
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.persistence.Column;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.bridgelabz.emppayroll.dto.EmployeePayrollDTO;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -17,26 +23,23 @@ import lombok.ToString;
 @Table(name = "employee_payroll")
 @Getter
 @Setter
+@AllArgsConstructor
 @ToString
-public class Employee {
+public @Data class Employee {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-	@Column(name = "name")
 	private String name;
-	@Column(name = "salary")
 	private int salary;
-	@Column(name = "gender")
-	private char gender;
-	@Column(name = "start")
-	private Date start;
+	private String gender;
+	private String profile;
+	private String startdate;
+	private String notes;
+	@ManyToMany(cascade = CascadeType.MERGE)
+	private List<Department> department = new ArrayList<>();
 
-	public int getId() {
-		return id;
+	public Employee() {
 	}
 
-	public void setId(int empId) {
-		this.id = empId;
-	}
 }
