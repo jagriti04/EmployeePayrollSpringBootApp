@@ -7,5 +7,4 @@ import com.bridgelabz.emppayroll.model.Employee;
 
 @Repository
 public interface IEmployeePayrollRepository extends JpaRepository<Employee, Integer> {
-//	Employee findByEmailId(String email);
 }

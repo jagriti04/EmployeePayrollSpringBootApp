@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -47,7 +46,7 @@ public class EmployeePayrollController {
 	 * @return ResponseEntity
 	 * @throws EmployeePayrollException 
 	 */
-	@GetMapping(value = {"/getlist"})
+	@GetMapping(value = {"/employees-list"})
 	public ResponseEntity<List<Employee>> getEmployeeList() throws EmployeePayrollException {
 		return new ResponseEntity<List<Employee>>(empPayrollService.getEmployeeList() , HttpStatus.OK) ;
 	}
@@ -58,7 +57,7 @@ public class EmployeePayrollController {
 	 * @return ResponseEntity
 	 * @throws EmployeePayrollException 
 	 */
-	@GetMapping(value = "/get/{id}")
+	@GetMapping(value = "/employee/{id}")
 	public ResponseEntity<EmployeePayrollDTO> getEmployeeById(@PathVariable int id) throws EmployeePayrollException {
 		return new ResponseEntity<EmployeePayrollDTO>(empPayrollService.getEmployee(id), HttpStatus.OK);
 	}
@@ -68,10 +67,9 @@ public class EmployeePayrollController {
 	 * @param empDto
 	 * @return
 	 */
-	@PostMapping(value = "/create")
+	@PostMapping(value = "/register-employee")
 	public ResponseEntity<ResponseDTO> addEmployeeEntity(@Valid @RequestBody EmployeePayrollDTO empDto) {
-		System.out.println("in controller-----" + empDto);
-		Employee emp = empPayrollService.addEmployeePayroll(empDto);
+		empPayrollService.addEmployeePayroll(empDto);
 		return new ResponseEntity<ResponseDTO>(new ResponseDTO("Added emp payroll data"), HttpStatus.CREATED);
 	}
 	
@@ -82,9 +80,9 @@ public class EmployeePayrollController {
 	 * @return
 	 * @throws EmployeePayrollException 
 	 */
-	@PutMapping("/update/{id}")
+	@PutMapping("/update-employee/{id}")
 	public ResponseEntity<ResponseDTO> updateEmployeePayrollData(@PathVariable("id") int empId, @RequestBody EmployeePayrollDTO empPayrollData) throws EmployeePayrollException{
-		Employee empData = empPayrollService.updateEmployeePayrollData(empId, empPayrollData); 
+		empPayrollService.updateEmployeePayrollData(empId, empPayrollData); 
 		return new ResponseEntity<ResponseDTO>(new ResponseDTO("Updated emp payroll data"), HttpStatus.OK);
 	}
 
@@ -93,7 +91,7 @@ public class EmployeePayrollController {
 	 * @return
 	 * @throws GlobalExceptionHandler
 	 */
-	@DeleteMapping("/delete/{id}")
+	@DeleteMapping("/remove-employee/{id}")
 	public ResponseEntity<ResponseDTO> deleteEmployeePayrollData(@PathVariable("id") int empId) throws EmployeePayrollException{
 		empPayrollService.deleteEmployeePayrollData(empId);
 		return new ResponseEntity<ResponseDTO>(new ResponseDTO("Deleted data successfully"),HttpStatus.OK);

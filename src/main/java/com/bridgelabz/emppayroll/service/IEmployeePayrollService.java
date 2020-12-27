@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.bridgelabz.emppayroll.dto.EmployeePayrollDTO;
 import com.bridgelabz.emppayroll.exception.EmployeePayrollException;
-import com.bridgelabz.emppayroll.exception.GlobalExceptionHandler;
 import com.bridgelabz.emppayroll.model.Employee;
 
 public interface IEmployeePayrollService {

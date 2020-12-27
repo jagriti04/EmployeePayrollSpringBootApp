@@ -11,8 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-import com.bridgelabz.emppayroll.dto.EmployeePayrollDTO;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
